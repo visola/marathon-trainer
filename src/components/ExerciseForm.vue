@@ -3,25 +3,24 @@ import { ref } from 'vue';
 
 import DistanceRunExerciseForm from './DistanceRunExerciseForm.vue';
 
+import {
+  DISTANCE,
+  EXERCISE_TYPES,
+  EXERCISE_TYPE_NAMES
+} from '../model/exercises';
+
 import { useStore } from '../store';
 
 const props = defineProps(['day']);
 const store = useStore();
 
-const EXERCISE_TYPES = {
-  DISTANCE: 'Distance',
-  INTERVALS: 'Intervals',
-};
-
 const exercisesForDay = ref(store.exercises[props.day] || []);
 
 const handleAdd = () => {
-  exercisesForDay.value.push({ type: 'DISTANCE' });
-  console.log(exercisesForDay, exercisesForDay.value);
+  exercisesForDay.value.push({ type: EXERCISE_TYPE_NAMES[0] });
 };
 
 const handleExerciseChange = (exercise, index) => {
-  console.log(exercise, index);
   exercisesForDay.value[index] = exercise;
   store.setExercisesForDate(exercisesForDay.value, props.day);
 };
@@ -41,7 +40,7 @@ const handleExerciseChange = (exercise, index) => {
     </div>
 
     <DistanceRunExerciseForm
-      v-if="exercise.type === 'DISTANCE'"
+      v-if="exercise.type === DISTANCE"
       @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
       :exercise="exercise"
     />

@@ -3,6 +3,14 @@ import { ref, watch } from 'vue';
 import { Duration } from 'luxon';
 import { storeToRefs } from 'pinia';
 
+import {
+  EASY,
+  MARATHON,
+  MAX,
+  THREASHOLD,
+  PACES,
+} from './model/paces';
+
 import { useStore } from './store';
 
 import TrainingTable from './components/TrainingTable.vue';
@@ -63,19 +71,19 @@ handleChanges();
   <hr />
   <section id="paces">
     <div>
-      <label>Marathon Pace:</label>
+      <label>{{ PACES[MARATHON] }} Pace:</label>
       <span>{{ marathonPace }}</span>
     </div>
     <div>
-      <label>Easy Pace:</label>
+      <label>{{ PACES[EASY] }} Pace:</label>
       <span>{{ easyPace }}</span>
     </div>
     <div>
-      <label>Threshold Pace:</label>
+      <label>{{ PACES[THREASHOLD] }} Pace:</label>
       <span>{{ threasholdPace }}</span>
     </div>
     <div>
-      <label>Max Pace:</label>
+      <label>{{ PACES[MAX] }} Pace:</label>
       <span>{{ maxPace }}</span>
     </div>
   </section>

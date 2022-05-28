@@ -3,22 +3,13 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 import ExerciseModal from './ExerciseModal.vue';
+import { renderExercise } from '../model/exercises';
 import { useStore } from '../store';
 
 defineProps(['day']);
 
 const { exercises } = storeToRefs(useStore());
-
 const showExerciseModal = ref(false);
-
-const renderExercise = (exercise) => {
-  switch(exercise.type) {
-    case 'DISTANCE':
-      return `${exercise.distance} miles @ ${exercise.pace}`;
-    default:
-      return 'N/A';
-  }
-};
 </script>
 
 <template>

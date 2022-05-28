@@ -37,17 +37,19 @@ onMounted(() => calculateWeeks(props.raceDay));
   <table class="table">
     <thead>
       <tr>
-        <th>Mon</th>
-        <th>Tue</th>
-        <th>Wed</th>
-        <th>Thu</th>
-        <th>Fri</th>
-        <th>Sat</th>
-        <th>Sun</th>
+        <th>Week</th>
+        <th class="day">Mon</th>
+        <th class="day">Tue</th>
+        <th class="day">Wed</th>
+        <th class="day">Thu</th>
+        <th class="day">Fri</th>
+        <th class="day">Sat</th>
+        <th class="day">Sun</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="(week, i) in weeks" :key="i">
+        <td>-</td>
         <td v-for="day in week" :key="`${i}-${day}`">
           <TrainingDay :day="day" />
         </td>
@@ -59,5 +61,9 @@ onMounted(() => calculateWeeks(props.raceDay));
 <style scoped>
 th {
   text-align: center;
+}
+
+th.day {
+  width: 12vw;
 }
 </style>
