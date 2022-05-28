@@ -23,7 +23,6 @@ watch([distance, pace], () => {
    emit(
      'change',
      {
-      name: 'Distance',
       distance: distance.value,
       pace: pace.value,
     });
