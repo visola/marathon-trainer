@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 
 import DistanceRunExerciseForm from './DistanceRunExerciseForm.vue';
+import DistanceIntervaExerciseForm from './DistanceIntervaExerciseForm.vue';
 import RepeatExerciseForm from './RepeatExerciseForm.vue';
 
 import {
@@ -50,6 +51,12 @@ const handleExerciseChange = (exercise, index) => {
 
     <DistanceRunExerciseForm
       v-if="exercise.type === DISTANCE"
+      @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
+      :exercise="exercise"
+    />
+
+    <DistanceIntervaExerciseForm
+      v-if="exercise.type === DISTANCE_INTERVAL"
       @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
       :exercise="exercise"
     />
