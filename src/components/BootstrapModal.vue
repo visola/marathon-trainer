@@ -8,7 +8,7 @@ const handleClose = () => {
 </script>
 
 <template>
-  <div class="modal" tabindex="-1" :style="{ display: isOpen ? 'block' : 'none' }">
+  <div class="modal" tabindex="-1" v-if="isOpen" style="display: block">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

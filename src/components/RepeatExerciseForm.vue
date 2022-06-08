@@ -3,13 +3,13 @@ import { onMounted, ref, watch } from 'vue';
 
 import {
   DISTANCE,
-  DISTANCE_INTERVAL,
+  INTERVAL,
   EXERCISE_TYPES,
   REPEAT,
 } from '../model/exercises';
 
 import DistanceRunExerciseForm from './DistanceRunExerciseForm.vue';
-import DistanceIntervaExerciseForm from './DistanceIntervaExerciseForm.vue';
+import IntervaExerciseForm from './IntervaExerciseForm.vue';
 
 const emit = defineEmits(['change']);
 const props = defineProps(['exercise']);
@@ -77,8 +77,8 @@ watch([repeat], () => {
     :exercise="exercise"
   />
 
-  <DistanceIntervaExerciseForm
-    v-if="exercise.subType === DISTANCE_INTERVAL"
+  <IntervaExerciseForm
+    v-if="exercise.subType === INTERVAL"
     @change="handleExerciseChange"
     :exercise="exercise"
   />

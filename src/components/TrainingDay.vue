@@ -6,10 +6,15 @@ import ExerciseModal from './ExerciseModal.vue';
 import { renderExercise } from '../model/exercises';
 import { useStore } from '../store';
 
-defineProps(['day']);
+const props = defineProps(['day']);
 
-const { exercises } = storeToRefs(useStore());
+const store = useStore();
+const { exercises } = storeToRefs(store);
 const showExerciseModal = ref(false);
+
+const clearDay = () => {
+  store.setExercisesForDate([], props.day);
+};
 </script>
 
 <template>
@@ -19,9 +24,8 @@ const showExerciseModal = ref(false);
       {{ renderExercise(e) }}
     </p>
 
-    <button class="edit btn btn-primary" @click="showExerciseModal = !showExerciseModal">
-      <i class="bi bi-pencil"></i>
-    </button>
+    <i class="action edit bi bi-pencil" @click="showExerciseModal = !showExerciseModal"></i>
+    <i class="action clear bi bi-trash" @click="clearDay"></i>
 
     <ExerciseModal
       @close="showExerciseModal = false"
@@ -37,23 +41,27 @@ const showExerciseModal = ref(false);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: 70px;
   padding: 10px;
   position: relative;
 }
 
 .training-day:hover {
-  background: #eee;
+  background: #fafafa;
 }
 
 .training-day > .day {
   font-size: 0.8em;
 }
 
-.training-day > .edit {
-  padding: 2px 5px;
+.training-day > .action {
   position: absolute;
   right: 2px;
   top: 2px;
+}
+
+.training-day > .clear {
+  top: 35px;
 }
 
 .training-day > p {

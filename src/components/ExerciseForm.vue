@@ -1,14 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import DistanceRunExerciseForm from './DistanceRunExerciseForm.vue';
-import DistanceIntervaExerciseForm from './DistanceIntervaExerciseForm.vue';
+import IntervaExerciseForm from './IntervaExerciseForm.vue';
 import RepeatExerciseForm from './RepeatExerciseForm.vue';
 
 import {
   DISTANCE,
   EXERCISE_TYPES,
   EXERCISE_TYPE_NAMES,
+  INTERVAL,
   REPEAT,
 } from '../model/exercises';
 
@@ -17,10 +18,12 @@ import { useStore } from '../store';
 const props = defineProps(['day']);
 const store = useStore();
 
-const exercisesForDay = ref(store.exercises[props.day] || []);
+const getExercisesForDay = () => {
+  return store.exercises[props.day] || [];
+};
 
 const handleAdd = () => {
-  exercisesForDay.value.push({ type: EXERCISE_TYPE_NAMES[0] });
+  handleExerciseChange({ type: EXERCISE_TYPE_NAMES[0] }, getExercisesForDay().length);
 };
 
 const handleChangeType = (event, exercise, index) => {
@@ -31,15 +34,24 @@ const handleChangeType = (event, exercise, index) => {
 };
 
 const handleExerciseChange = (exercise, index) => {
-  exercisesForDay.value[index] = exercise;
-  store.setExercisesForDate(exercisesForDay.value, props.day);
+  const e = getExercisesForDay();
+  e[index] = exercise;
+  store.setExercisesForDate(e, props.day);
+};
+
+const removeExercise = (index) => {
+  let e = getExercisesForDay();
+  e.splice(index, 1);
+  store.setExercisesForDate(e, props.day);
 };
 </script>
 
 <template>
   <button class="btn btn-primary" @click="handleAdd">Add</button>
 
-  <div class="exercise-row" v-for="(exercise, index) in exercisesForDay" :key="`${day}-${index}`">
+  <div class="exercise-row" v-for="(exercise, index) in getExercisesForDay()" :key="`${day}-${index}`">
+    <i class="action clear bi bi-trash" @click="() => removeExercise(index)"></i>
+
     <div class="input-group">
       <label class="form-label">Exercise Type:</label>
       <select class="form-select" :value="exercise.type" @change="(event) => handleChangeType(event, exercise, index)">
@@ -55,8 +67,8 @@ const handleExerciseChange = (exercise, index) => {
       :exercise="exercise"
     />
 
-    <DistanceIntervaExerciseForm
-      v-if="exercise.type === DISTANCE_INTERVAL"
+    <IntervaExerciseForm
+      v-if="exercise.type === INTERVAL"
       @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
       :exercise="exercise"
     />
@@ -85,6 +97,8 @@ const handleExerciseChange = (exercise, index) => {
 
 <style>
 .exercise-row .input-group {
+  align-items: center;
+  margin-bottom: unset;
   margin-right: 12px;
   min-width: 12vw;
 }

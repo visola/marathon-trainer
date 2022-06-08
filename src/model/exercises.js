@@ -1,12 +1,14 @@
+import * as intervals from './intervals';
+
 import { PACES } from './paces';
 
 export const DISTANCE = 'DISTANCE';
-export const DISTANCE_INTERVAL = 'DISTANCE_INTERVAL';
 export const REPEAT = 'REPEAT';
+export const INTERVAL = 'INTERVAL';
 
 export const EXERCISE_TYPES = {
   [DISTANCE]: 'Distance',
-  [DISTANCE_INTERVAL]: 'Distance Interval',
+  [INTERVAL]: 'Interval',
   [REPEAT]: 'Repeat',
 };
 
@@ -17,7 +19,7 @@ const formatMiles = (distance) => {
     return '-';
   }
 
-  return `${distance}mi`;
+  return `${distance}miles`;
 };
 
 const formatPace = (pace) => {
@@ -28,12 +30,33 @@ const formatPace = (pace) => {
   return PACES[pace].substring(0, 1);
 };
 
-const formatRestTime = (restTime) => { 
+const formatTime = (restTime) => { 
   if (!restTime) {
     return 'N/A';
   }
 
-  return `${restTime}m`;
+  return `${restTime}min`;
+};
+
+const renderInterval = (exercise) => {
+  let description = '';
+  if (exercise.intervalType === intervals.DISTANCE) {
+    description = formatMiles(exercise.distance);
+  } else {
+    description = formatTime(exercise.time);
+  }
+
+  description += `@${formatPace(exercise.pace)} Rest: `;
+
+  if (exercise.restType === intervals.DISTANCE) {
+    description += formatMiles(exercise.restDistance);
+  } else {
+    description += formatTime(exercise.restTime);
+  }
+
+  description += `@${formatPace(exercise.restPace)}`;
+
+  return description;
 };
 
 const renderSubExercise = (exercise) => {
@@ -47,8 +70,8 @@ export const renderExercise = (exercise) => {
   switch(exercise.type) {
     case DISTANCE:
       return `${formatMiles(exercise.distance)}@${formatPace(exercise.pace)}`;
-    case DISTANCE_INTERVAL:
-      return `${formatMiles(exercise.distance)}@${formatPace(exercise.pace)} w/ ${formatRestTime(exercise.restTime)}`;
+    case INTERVAL:
+      return renderInterval(exercise);
     case REPEAT:
       return `${exercise.repeat}x (${renderSubExercise(exercise)})`;
     default:
