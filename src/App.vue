@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 import {
   EASY,
   MARATHON,
-  MAX,
+  HARD,
   THREASHOLD,
   PACES,
 } from './model/paces';
@@ -21,7 +21,7 @@ const { raceDay, targetTime } = storeToRefs(store);
 const marathonPace = ref(null);
 const easyPace = ref(null);
 const threasholdPace = ref(null);
-const maxPace = ref(null);
+const hardPace = ref(null);
 
 const convertSecondsToMinutesAndSeconds = (seconds) => {
   const d = Duration.fromObject({ seconds }).shiftTo('minutes', 'seconds', 'milliseconds');
@@ -40,7 +40,7 @@ const handleChanges = () => {
   marathonPace.value = convertSecondsToMinutesAndSeconds(marathonPaceInSeconds);
   easyPace.value = convertSecondsToMinutesAndSeconds(marathonPaceInSeconds * 1.25);
   threasholdPace.value = convertSecondsToMinutesAndSeconds(marathonPaceInSeconds * 0.95);
-  maxPace.value = convertSecondsToMinutesAndSeconds(marathonPaceInSeconds * 0.86);
+  hardPace.value = convertSecondsToMinutesAndSeconds(marathonPaceInSeconds * 0.86);
 
   saveData();
 }
@@ -83,8 +83,8 @@ handleChanges();
       <span>{{ threasholdPace }}</span>
     </div>
     <div>
-      <label>{{ PACES[MAX] }} Pace:</label>
-      <span>{{ maxPace }}</span>
+      <label>{{ PACES[HARD] }} Pace:</label>
+      <span>{{ hardPace }}</span>
     </div>
   </section>
 

@@ -3,15 +3,12 @@ import { onMounted, ref, watch } from 'vue';
 
 import {
   EASY,
-  PACES,
-  MAX,
+  HARD,
 } from '../model/paces';
 
 import {
   DISTANCE,
   TIME,
-  TYPES,
-  UNITS,
 } from '../model/intervals';
 
 const emit = defineEmits(['change']);
@@ -20,7 +17,7 @@ const props = defineProps(['exercise']);
 const distance = ref('');
 const intervalType = ref(DISTANCE);
 const time = ref('');
-const pace = ref(MAX);
+const pace = ref(HARD);
 
 const restDistance = ref('');
 const restPace = ref(EASY);
@@ -29,7 +26,7 @@ const restType = ref(TIME);
 
 const setExercise = (exercise) => {
   distance.value = exercise.distance || '';
-  pace.value = exercise.pace || MAX;
+  pace.value = exercise.pace || HARD;
   restTime.value = exercise.restTime || '';
 }
 
