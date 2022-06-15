@@ -1,7 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-
-import DistanceRunExerciseForm from './DistanceRunExerciseForm.vue';
+import DistanceExerciseForm from './DistanceExerciseForm.vue';
 import IntervaExerciseForm from './IntervaExerciseForm.vue';
 import RepeatExerciseForm from './RepeatExerciseForm.vue';
 
@@ -61,7 +59,7 @@ const removeExercise = (index) => {
       </select>
     </div>
 
-    <DistanceRunExerciseForm
+    <DistanceExerciseForm
       v-if="exercise.type === DISTANCE"
       @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
       :exercise="exercise"

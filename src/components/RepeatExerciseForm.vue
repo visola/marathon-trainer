@@ -8,7 +8,7 @@ import {
   REPEAT,
 } from '../model/exercises';
 
-import DistanceRunExerciseForm from './DistanceRunExerciseForm.vue';
+import DistanceExerciseForm from './DistanceExerciseForm.vue';
 import IntervaExerciseForm from './IntervaExerciseForm.vue';
 
 const emit = defineEmits(['change']);
@@ -71,7 +71,7 @@ watch([repeat], () => {
     </select>
   </div>
 
-  <DistanceRunExerciseForm
+  <DistanceExerciseForm
     v-if="exercise.subType === DISTANCE"
     @change="handleExerciseChange"
     :exercise="exercise"
