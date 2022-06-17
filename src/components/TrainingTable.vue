@@ -1,34 +1,19 @@
 <script setup>
 import { DateTime } from 'luxon';
 import { onMounted, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 
 import TrainingDay from './TrainingDay.vue';
-
-const TOTAL_WEEKS = 18;
+import { useStore } from '../store';
+import { getTrainingDaysInWeeks } from '../model/days';
 
 const props = defineProps(['raceDay']);
 const weeks = ref([]);
 
+const { totalWeeks } = storeToRefs(useStore());
+
 const calculateWeeks = (raceDay) => {
-  const dtRaceDay = DateTime.fromISO(raceDay);
-  const dtStartTrain = dtRaceDay.minus({ weeks: TOTAL_WEEKS }).startOf('week');
-
-  const result = [];
-
-  let days = [];
-  let day = dtStartTrain;
-  let weekNumber = day.weekNumber;
-  while(day.diff(dtRaceDay).toMillis() <= 0) {
-    days.push(day.toISODate());
-    day = day.plus({ days: 1 });
-    if (weekNumber !== day.weekNumber) {
-      result.push(days);
-      days = [];
-    }
-    weekNumber = day.weekNumber;
-  }
-
-  weeks.value = result;
+  weeks.value = getTrainingDaysInWeeks(raceDay, totalWeeks.value);
 }
 
 watch(() => props.raceDay, (newValue) => calculateWeeks(newValue));
@@ -52,7 +37,8 @@ onMounted(() => calculateWeeks(props.raceDay));
     <tbody>
       <tr v-for="(week, i) in weeks" :key="i">
         <td>
-          T - {{TOTAL_WEEKS - i }} weeks
+          {{ i + 1 }}<br />
+          T - {{totalWeeks - i - 1 }} weeks
         </td>
         <td v-for="day in week" :key="`${i}-${day}`" :class="{ 'marathon-day': day === raceDay }">
           <TrainingDay :day="day" v-if="day !== raceDay" />
