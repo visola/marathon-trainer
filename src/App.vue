@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { Duration } from 'luxon';
+import { DateTime, Duration } from 'luxon';
 import { storeToRefs } from 'pinia';
 
 import {
@@ -18,6 +18,8 @@ import TrainingTable from './components/TrainingTable.vue';
 const store = useStore();
 const { raceDay, targetTime } = storeToRefs(store);
 
+const fileInput = ref(null);
+const fileToLoadFrom = ref(null);
 const marathonPace = ref(null);
 const easyPace = ref(null);
 const threasholdPace = ref(null);
@@ -45,6 +47,33 @@ const handleChanges = () => {
   saveData();
 }
 
+const handleFileChanged = (e) => {
+  fileToLoadFrom.value = e.target.files[0];
+};
+
+const handleLoad = () => {
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    store.resetTo(e.target.result);
+    fileToLoadFrom.value = null;
+    fileInput.value.value = '';
+  }
+  reader.readAsText(fileToLoadFrom.value);
+};
+
+const handleSave = () => {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(store)));
+  element.setAttribute('download', `marathon-trainer-${DateTime.now().toISO()}.json`);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+};
+
 const saveData = () => {
   store.setRaceDay(raceDay.value);
   store.setTargetTime(targetTime.value);
@@ -65,6 +94,16 @@ handleChanges();
     <div>
       <label for="raceDay" class="form-label">Race Day:</label>
       <input type="date" class="form-control" v-model="raceDay" />
+    </div>
+  </section>
+
+  <section id="files">
+    <button class="btn btn-primary" @click="handleSave">Save to file</button>
+    <div>
+      <input ref="fileInput" @change="handleFileChanged" type="file" />
+      <button class="btn btn-primary" :disabled="!fileToLoadFrom" @click="handleLoad">
+        Load from file
+      </button>
     </div>
   </section>
 
@@ -92,6 +131,18 @@ handleChanges();
 </template>
 
 <style>
+#files {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 20px 0;
+  width: fit-content;
+}
+
+#files > div {
+  margin: 10px 0;
+}
+
 #inputs {
   max-width: 30vw;
 }

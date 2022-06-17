@@ -29,6 +29,14 @@ export const useStore = defineStore('main', {
       this.targetTime = loaded.targetTime || '';
     },
 
+    resetTo(contentAsString) {
+      const data = JSON.parse(contentAsString);
+      this.exercises = data.exercises || {};
+      this.raceDay = data.raceDay || '';
+      this.targetTime = data.targetTime || '';
+      save(this);
+    },
+
     setExercisesForDate(exercises, date) {
       this.exercises[date] = exercises;
       save(this);
