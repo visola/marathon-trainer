@@ -4,12 +4,14 @@ import { onMounted, ref, watch } from 'vue';
 
 import TrainingDay from './TrainingDay.vue';
 
+const TOTAL_WEEKS = 18;
+
 const props = defineProps(['raceDay']);
 const weeks = ref([]);
 
 const calculateWeeks = (raceDay) => {
   const dtRaceDay = DateTime.fromISO(raceDay);
-  const dtStartTrain = dtRaceDay.minus({ weeks: 18 }).startOf('week');
+  const dtStartTrain = dtRaceDay.minus({ weeks: TOTAL_WEEKS }).startOf('week');
 
   const result = [];
 
@@ -37,6 +39,7 @@ onMounted(() => calculateWeeks(props.raceDay));
   <table class="table">
     <thead>
       <tr>
+        <th>&nbsp;</th>
         <th class="day">Mon</th>
         <th class="day">Tue</th>
         <th class="day">Wed</th>
@@ -48,8 +51,11 @@ onMounted(() => calculateWeeks(props.raceDay));
     </thead>
     <tbody>
       <tr v-for="(week, i) in weeks" :key="i">
-        <td v-for="day in week" :key="`${i}-${day}`">
-          <TrainingDay :day="day" />
+        <td>
+          T - {{TOTAL_WEEKS - i }} weeks
+        </td>
+        <td v-for="day in week" :key="`${i}-${day}`" :class="{ 'marathon-day': day === raceDay }">
+          <TrainingDay :day="day" v-if="day !== raceDay" />
         </td>
       </tr>
     </tbody>
@@ -59,5 +65,14 @@ onMounted(() => calculateWeeks(props.raceDay));
 <style scoped>
 th {
   text-align: center;
+}
+
+td.marathon-day {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.marathon-day:after {
+  content: 'Marathon day';
 }
 </style>

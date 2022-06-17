@@ -50,8 +50,8 @@ const clearDay = () => {
 }
 
 .training-day:hover {
-  background: #fafafa;
   border: 1px solid black;
+  filter: brightness(1.1);
 }
 
 .training-day > .day {
