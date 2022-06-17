@@ -1,12 +1,14 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
+import { DateTime } from 'luxon';
 
 import ExerciseModal from './ExerciseModal.vue';
 import { renderExercise } from '../model/exercises';
 import { useStore } from '../store';
 
 const props = defineProps(['day']);
+const today = DateTime.now().toISODate();
 
 const store = useStore();
 const { exercises } = storeToRefs(store);
@@ -18,7 +20,7 @@ const clearDay = () => {
 </script>
 
 <template>
-  <div class="training-day">
+  <div class="training-day" :class="{ before: today > day, today: today === day }">
     <span class="day">{{ day }}</span>
     <p v-for="e in exercises[day]" :key="`${day}-${e.length}`">
       {{ renderExercise(e) }}
@@ -38,6 +40,7 @@ const clearDay = () => {
 <style scoped>
 .training-day {
   align-items: center;
+  border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,6 +51,7 @@ const clearDay = () => {
 
 .training-day:hover {
   background: #fafafa;
+  border: 1px solid black;
 }
 
 .training-day > .day {

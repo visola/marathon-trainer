@@ -12,3 +12,11 @@ body {
 .action:hover {
   background: #ddd;
 }
+
+.before {
+  background: rgb(255, 226, 226);
+}
+
+.today {
+  background: rgb(255, 255, 205);
+}
