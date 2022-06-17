@@ -21,6 +21,14 @@ export const useStore = defineStore('main', {
   }),
 
   actions: {
+    getData() {
+      return {
+        exercises: this.exercises,
+        raceDay: this.raceDay,
+        targetTime: this.targetTime,
+      };
+    },
+
     initialize() {
       const loaded = load();
 

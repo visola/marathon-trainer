@@ -63,7 +63,7 @@ const handleLoad = () => {
 
 const handleSave = () => {
   var element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(store)));
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(store.getData())));
   element.setAttribute('download', `marathon-trainer-${DateTime.now().toISO()}.json`);
 
   element.style.display = 'none';
