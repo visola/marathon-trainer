@@ -1,7 +1,8 @@
 <script setup>
 import DistanceExerciseForm from './DistanceExerciseForm.vue';
-import IntervaExerciseForm from './IntervaExerciseForm.vue';
+import IntervalExerciseForm from './IntervalExerciseForm.vue';
 import RepeatExerciseForm from './RepeatExerciseForm.vue';
+import TimeExerciseForm from './TimeExerciseForm.vue';
 
 import {
   DISTANCE,
@@ -9,6 +10,7 @@ import {
   EXERCISE_TYPE_NAMES,
   INTERVAL,
   REPEAT,
+  TIME,
 } from '../model/exercises';
 
 import { useStore } from '../store';
@@ -65,7 +67,7 @@ const removeExercise = (index) => {
       :exercise="exercise"
     />
 
-    <IntervaExerciseForm
+    <IntervalExerciseForm
       v-if="exercise.type === INTERVAL"
       @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
       :exercise="exercise"
@@ -73,6 +75,12 @@ const removeExercise = (index) => {
 
     <RepeatExerciseForm
       v-if="exercise.type === REPEAT"
+      @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
+      :exercise="exercise"
+    />
+
+    <TimeExerciseForm
+      v-if="exercise.type === TIME"
       @change="(e) => handleExerciseChange({...exercise, ...e}, index)"
       :exercise="exercise"
     />

@@ -6,10 +6,12 @@ import {
   INTERVAL,
   EXERCISE_TYPES,
   REPEAT,
+  TIME,
 } from '../model/exercises';
 
 import DistanceExerciseForm from './DistanceExerciseForm.vue';
-import IntervaExerciseForm from './IntervaExerciseForm.vue';
+import IntervalExerciseForm from './IntervalExerciseForm.vue';
+import TimeExerciseForm from './IntervalExerciseForm.vue';
 
 const emit = defineEmits(['change']);
 const props = defineProps(['exercise']);
@@ -77,8 +79,14 @@ watch([repeat], () => {
     :exercise="exercise"
   />
 
-  <IntervaExerciseForm
+  <IntervalExerciseForm
     v-if="exercise.subType === INTERVAL"
+    @change="handleExerciseChange"
+    :exercise="exercise"
+  />
+
+  <TimeExerciseForm
+    v-if="exercise.subType === TIME"
     @change="handleExerciseChange"
     :exercise="exercise"
   />

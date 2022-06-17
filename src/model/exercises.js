@@ -3,13 +3,15 @@ import * as intervals from './intervals';
 import { PACES } from './paces';
 
 export const DISTANCE = 'DISTANCE';
-export const REPEAT = 'REPEAT';
 export const INTERVAL = 'INTERVAL';
+export const REPEAT = 'REPEAT';
+export const TIME = 'TIME';
 
 export const EXERCISE_TYPES = {
   [DISTANCE]: 'Distance',
   [INTERVAL]: 'Interval',
   [REPEAT]: 'Repeat',
+  [TIME]: 'Time',
 };
 
 export const EXERCISE_TYPE_NAMES = Object.keys(EXERCISE_TYPES);
@@ -20,6 +22,14 @@ const formatMiles = (distance) => {
   }
 
   return `${distance}miles`;
+};
+
+const formatMinutes = (time) => {
+  if (!time) {
+    return '-';
+  }
+
+  return `${time}minutes`;
 };
 
 const formatPace = (pace) => {
@@ -74,6 +84,8 @@ export const renderExercise = (exercise) => {
       return renderInterval(exercise);
     case REPEAT:
       return `${exercise.repeat}x (${renderSubExercise(exercise)})`;
+    case TIME:
+      return `${formatMinutes(exercise.time)}@${formatPace(exercise.pace)}`;
     default:
       return exercise.type;
   }

@@ -4,11 +4,14 @@ import { onMounted, ref, watch } from 'vue';
 import {
   EASY,
   HARD,
+  PACES,
 } from '../model/paces';
 
 import {
   DISTANCE,
   TIME,
+  TYPES,
+  UNITS,
 } from '../model/intervals';
 
 const emit = defineEmits(['change']);
